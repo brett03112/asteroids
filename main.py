@@ -7,6 +7,12 @@ from player import *
 
 def main():
     
+    """
+    Main game loop.
+    This function initializes pygame and sets up the display,
+    then enters an infinite loop where it continually draws the
+    player and updates the display.
+    """
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     
