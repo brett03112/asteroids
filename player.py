@@ -33,7 +33,7 @@ class Player(CircleShape):
         The player is drawn as a white triangle with a thickness of 2.
         The triangle is formed by the player's position and rotation.
         """
-        pygame.draw.polygon(screen, "white", self.triangle(), 2)
+        pygame.draw.polygon(screen, "white", self.triangle(), 2) # type: ignore
         
     def update(self, dt):
         """
@@ -46,9 +46,17 @@ class Player(CircleShape):
         
         if keys[pygame.K_a]:
             self.rotate(-dt)
+            
         if keys[pygame.K_d]:
             self.rotate(dt)
-
+        if keys[pygame.K_w]:
+            self.move(dt)
+        if keys[pygame.K_w]:
+            self.move(dt)
+        if keys[pygame.K_s]:
+            self.move(-dt)
+        
+        
     def rotate(self, dt):
         """
         Rotates the player by PLAYER_TURN_SPEED * dt.
@@ -57,3 +65,12 @@ class Player(CircleShape):
         
         self.rotation += PLAYER_TURN_SPEED * dt
         return self.rotation
+    
+    def move(self, dt):
+        """
+        Moves the player forward in the direction of its rotation by PLAYER_SPEED * dt.
+        Returns the new position.
+        """
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        self.position += forward * PLAYER_SPEED * dt
+        return self.position

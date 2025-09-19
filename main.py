@@ -16,6 +16,11 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     
+    # Create sprite groups and assign them to the Player class
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable) # type: ignore
+    
     clock = pygame.time.Clock()
     dt = 0
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, )
@@ -24,11 +29,24 @@ def main():
             if event.type == pygame.QUIT:
                 return
         pygame.Surface.fill(screen, ("black"))
-        player.draw(screen)
-        pygame.display.flip()
-        player.update(dt)
         
-        clock.tick(60)
+        # Draw all drawable objects individually
+        for sprite in drawable:
+            sprite.draw(screen)
+        
+        pygame.display.flip()
+        
+        # Update all updatable objects individually
+        for sprite in updatable:
+            sprite.update(dt)
+        
+        # Limit to 60 frames per second
+        # dt is the time since the last frame in seconds
+        # dt is used to make movement smooth and consistent
+        # regardless of the frame rate
+        # dt is passed to the player's update method
+        # to ensure the player rotates at the same speed
+        # regardless of the frame rate
         dt = clock.tick(60) / 1000
 
 if __name__ == "__main__":
