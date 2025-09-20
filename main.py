@@ -4,6 +4,8 @@
 import pygame
 from constants import *
 from player import *
+from asteroid import *
+from asteroidfield import *
 
 def main():
     
@@ -16,11 +18,20 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     
-    # Create sprite groups and assign them to the Player class
+    # Create sprite groups first
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+
+    # Assign the sprite groups to the Player, Asteroid and AsteroidField classes
     Player.containers = (updatable, drawable) # type: ignore
+    Asteroid.containers = (updatable, drawable, asteroids) # type: ignore
+    AsteroidField.containers = (updatable, ) # type: ignore
     
+    # Create objects after containers are assigned
+    asteroid_field = AsteroidField()
+    
+    # Create a clock to manage the frame rate
     clock = pygame.time.Clock()
     dt = 0
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, )
