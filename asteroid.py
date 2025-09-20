@@ -3,6 +3,14 @@ from constants import *
 from circleshape import *
 
 class Asteroid(CircleShape):
+    """Represents an asteroid in the game.
+
+    Args:
+        CircleShape -- Inherits from CircleShape class.
+    Methods:
+        draw(screen) -- Draws the asteroid on the given screen.
+        update(dt) -- Updates the asteroid's position based on its velocity and the time delta.
+    """
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         
