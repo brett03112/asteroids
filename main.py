@@ -22,11 +22,13 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
-    # Assign the sprite groups to the Player, Asteroid and AsteroidField classes
+    # Assign the sprite groups to the Player, Asteroid, Shot and AsteroidField classes
     Player.containers = (updatable, drawable) # type: ignore
     Asteroid.containers = (updatable, drawable, asteroids) # type: ignore
     AsteroidField.containers = (updatable, ) # type: ignore
+    Shot.containers = (updatable, drawable, shots) # type: ignore
     
     # Create objects after containers are assigned
     asteroid_field = AsteroidField()
@@ -59,7 +61,15 @@ def main():
                 
                 # Exit the game loop
                 return
-            
+        '''
+        # Check for collisions between shots and asteroids
+        for shot in shots:
+            for asteroid in asteroids:
+                if shot.collide(asteroid):
+                    shot.kill()
+                    asteroid.kill()
+                    break
+        '''
             
         # Limit to 60 frames per second
         # dt is the time since the last frame in seconds

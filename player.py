@@ -1,6 +1,8 @@
+from turtle import forward
 import pygame
 from circleshape import *
 from constants import *
+from shot import *
 
 class Player(CircleShape):
     def __init__(self, x, y):
@@ -13,7 +15,7 @@ class Player(CircleShape):
         self.rotation = 0
         
         # in the player class
-    def triangle(self):
+    def triangle(self) -> list[pygame.Vector2]:
         """
         Returns a list of 3 points which form a triangle representing the player's nose.
         The triangle is formed by the player's position and the player's rotation.
@@ -25,9 +27,9 @@ class Player(CircleShape):
         a = self.position + forward * self.radius # type: ignore
         b = self.position - forward * self.radius - right #type: ignore
         c = self.position - forward * self.radius + right #type:ignore
-        return [a, b, c]
-    
-    def draw(self, screen):
+        return [a, b, c] # type: ignore
+
+    def draw(self, screen) -> None:
         """
         Draws the player onto the given screen.
         The player is drawn as a white triangle with a thickness of 2.
@@ -35,7 +37,7 @@ class Player(CircleShape):
         """
         pygame.draw.polygon(screen, "white", self.triangle(), 2) # type: ignore
         
-    def update(self, dt):
+    def update(self, dt) -> None:
         """
         Updates the player's rotation based on the state of the a and d keys.
 
@@ -51,13 +53,13 @@ class Player(CircleShape):
             self.rotate(dt)
         if keys[pygame.K_w]:
             self.move(dt)
-        if keys[pygame.K_w]:
-            self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
+        if keys[pygame.K_SPACE]:
+            self.shoot() 
         
         
-    def rotate(self, dt):
+    def rotate(self, dt) -> float:
         """
         Rotates the player by PLAYER_TURN_SPEED * dt.
         Returns the new rotation.
@@ -66,7 +68,7 @@ class Player(CircleShape):
         self.rotation += PLAYER_TURN_SPEED * dt
         return self.rotation
     
-    def move(self, dt):
+    def move(self, dt) -> pygame.Vector2:
         """
         Moves the player forward in the direction of its rotation by PLAYER_SPEED * dt.
         Returns the new position.
@@ -74,3 +76,14 @@ class Player(CircleShape):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
         return self.position
+
+    def shoot(self) -> Shot:
+        """
+        Creates a new Shot object at the player's position and with the player's rotation.
+        The Shot object is given a velocity in the direction of the player's rotation
+        with a magnitude of PLAYER_SHOOT_SPEED.
+        """
+        shot = Shot(self.position[0], self.position[1])  
+        velocity = pygame.Vector2(0, 1).rotate(self.rotation)
+        shot.velocity = velocity * PLAYER_SHOOT_SPEED
+        return shot
