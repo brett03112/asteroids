@@ -61,7 +61,7 @@ def main():
                 
                 # Exit the game loop
                 return
-        '''
+        
         # Check for collisions between shots and asteroids
         for shot in shots:
             for asteroid in asteroids:
@@ -69,7 +69,6 @@ def main():
                     shot.kill()
                     asteroid.kill()
                     break
-        '''
             
         # Limit to 60 frames per second
         # dt is the time since the last frame in seconds
