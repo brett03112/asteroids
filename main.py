@@ -51,6 +51,16 @@ def main():
         for sprite in updatable:
             sprite.update(dt)
         
+        # Check for collisions between the player and asteroids using the collide method
+        for asteroid in asteroids:
+            if player.collide(asteroid):
+                # If a collision is detected, print "Game over!" and exit the game loop
+                print("Game over!")
+                
+                # Exit the game loop
+                return
+            
+            
         # Limit to 60 frames per second
         # dt is the time since the last frame in seconds
         # dt is used to make movement smooth and consistent
