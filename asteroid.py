@@ -1,3 +1,4 @@
+import random
 import pygame
 from constants import *
 from circleshape import *
@@ -23,3 +24,22 @@ class Asteroid(CircleShape):
         it should add (self.velocity * dt) to its position (get self.velocity from its parent class, CircleShape).
         """
         self.position += self.velocity * dt
+
+    def split(self):
+            """
+            Splits the asteroid into two smaller asteroids when hit by a shot.
+            If the asteroid is too small, it is destroyed.
+            Otherwise, it is split into two smaller asteroids with random velocities.
+            """
+            self.kill()
+            if self.radius <= ASTEROID_MIN_RADIUS:
+                return
+            else:
+                angle = random.uniform(20, 50)
+                new_radius = self.radius - ASTEROID_MIN_RADIUS
+                velocity1 = self.velocity.rotate(angle)
+                velocity2 = self.velocity.rotate(-angle)
+                asteroid1 = Asteroid(self.position.x, self.position.y, new_radius) # type: ignore
+                asteroid2 = Asteroid(self.position.x, self.position.y, new_radius) # type: ignore
+                asteroid1.velocity = velocity1 * 1.2
+                asteroid2.velocity = velocity2 * 1.2

@@ -67,9 +67,10 @@ def main():
             for asteroid in asteroids:
                 if shot.collide(asteroid):
                     shot.kill()
-                    asteroid.kill()
+                    asteroid.split()
                     break
             
+
         # Limit to 60 frames per second
         # dt is the time since the last frame in seconds
         # dt is used to make movement smooth and consistent
