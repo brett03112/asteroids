@@ -24,6 +24,10 @@ def main():
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
 
+    # Initialize score
+    score = 0
+    font = pygame.font.Font(None, 36)
+
     # Assign the sprite groups to the Player, Asteroid, Shot and AsteroidField classes
     Player.containers = (updatable, drawable) # type: ignore
     Asteroid.containers = (updatable, drawable, asteroids) # type: ignore
@@ -47,6 +51,10 @@ def main():
         for sprite in drawable:
             sprite.draw(screen)
         
+        # Draw score
+        score_text = font.render(f"Score: {score}", True, "white")
+        screen.blit(score_text, (10, 10))
+        
         pygame.display.flip()
         
         # Update all updatable objects individually
@@ -66,11 +74,18 @@ def main():
         for shot in shots:
             for asteroid in asteroids:
                 if shot.collide(asteroid):
+                    # Add score based on asteroid size
+                    if asteroid.radius == ASTEROID_MIN_RADIUS:
+                        score += 10  # Small asteroid
+                    elif asteroid.radius == ASTEROID_MIN_RADIUS * 2:
+                        score += 5   # Medium asteroid
+                    else:
+                        score += 1   # Large asteroid
+                    
                     shot.kill()
                     asteroid.split()
                     break
             
-
         # Limit to 60 frames per second
         # dt is the time since the last frame in seconds
         # dt is used to make movement smooth and consistent

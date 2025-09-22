@@ -13,6 +13,7 @@ This project is a recreation of the classic Asteroids arcade game where players 
 - Asteroid destruction and splitting mechanics
 - Shooting system with cooldown
 - Collision detection between player, asteroids, and shots
+- Score tracking system
 - Classic Asteroids-style graphics
 - Smooth frame-rate independent movement
 - Object-oriented design using Pygame sprites
@@ -56,6 +57,12 @@ Or with Python 3 specifically:
 python3 main.py
 ```
 
+Or with uv:
+
+```bash
+uv run main.py
+```
+
 ## Controls
 
 - **W** - Move forward
@@ -82,6 +89,14 @@ The player's spaceship can rotate left and right using the A and D keys, and mov
 
 ### Shooting
 Players can fire projectiles by pressing the SPACE key. Each shot travels in the direction the spaceship is facing at a constant speed. There is a cooldown period between shots to prevent continuous firing.
+
+### Scoring System
+Players earn points for destroying asteroids:
+- Large asteroids (radius 60): 1 point
+- Medium asteroids (radius 40): 5 points
+- Small asteroids (radius 20): 10 points
+
+The score is displayed in the top-left corner of the screen.
 
 ### Asteroid Behavior
 Asteroids spawn randomly from the edges of the screen and travel in straight lines. When an asteroid is hit by a shot:
@@ -120,12 +135,12 @@ The game follows object-oriented principles with a base `CircleShape` class that
 
 ## Future Enhancements
 
-- Score tracking and game states
 - Particle effects for explosions
 - Sound effects and music
 - Multiple lives and game over screen
 - Power-ups and special weapons
 - Different asteroid types with varying behaviors
+- High score tracking
 
 ## Contributing
 
